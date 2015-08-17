@@ -1,0 +1,21 @@
+{
+  "name": "amvn",
+  "version": "0.1.0",
+  "description": "A slightly more awesome Maven (https://maven.apache.org)",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "amvn": "bin/cmd.js"
+  },
+  "author": "Nico Rehwaldt<git_nikku@nixis.de>",
+  "license": "MIT",
+  "dependencies": {
+    "chokidar": "^1.0.5",
+    "colors": "^1.1.2",
+    "cp": "^0.2.0",
+    "debounce": "^1.0.0",
+    "mkdirp": "^0.5.1",
+    "which": "^1.1.1"
+  }
+}
