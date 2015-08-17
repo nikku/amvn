@@ -20,7 +20,7 @@ Use it with modern web development stacks such as [Dropwizard](https://dropwizar
 Install the library via [npm](https://www.npmjs.com/):
 
 ```
-npm i -g amvn
+npm install amvn -g
 ```
 
 
