@@ -1,4 +1,4 @@
-# amvn
+# awesome-maven
 
 A tiny wrapper around [Maven](https://maven.apache.org/) that makes Java development less painful.
 
@@ -28,6 +28,7 @@ npm install amvn -g
 
 ```
 > amvn clean compile ... --watch
+[AMVN] make maven awesome
 [AMVN] watching for src/main/resources changes...
 [AMVN] starting mvn...
 [INFO] Scanning for projects...
