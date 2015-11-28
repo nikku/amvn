@@ -17,8 +17,6 @@ var chokidar = require('chokidar'),
 
 var log = console.log.bind(console);
 
-var defer = setTimeout;
-
 
 function AwesomeMaven(mvnPath, options) {
 
@@ -48,8 +46,6 @@ function AwesomeMaven(mvnPath, options) {
     }
   }
 
-  var restartMaven = debounce(runMaven, 4000);
-
   function reloadMaven() {
 
     if (mvn) {
@@ -62,8 +58,11 @@ function AwesomeMaven(mvnPath, options) {
       }
     }
 
-    restartMaven();
+    delayedRestartMaven();
   }
+
+  var delayedReloadMaven = debounce(reloadMaven, 2000);
+  var delayedRestartMaven = debounce(runMaven, 4000);
 
 
   function registerWatch() {
@@ -95,7 +94,7 @@ function AwesomeMaven(mvnPath, options) {
     // One-liner for current directory, ignores .dotfiles
     var watcher = chokidar.watch(JAVA_SOURCES + '/**/*', { usePolling: options.poll });
 
-    watcher.on('change', debounce(reloadMaven, 2000));
+    watcher.on('change', delayedReloadMaven);
   }
 
 
