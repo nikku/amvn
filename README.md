@@ -1,8 +1,8 @@
-# awesome-maven
+# amvn (read: _slightly better maven_)
 
 A tiny wrapper around [Maven](https://maven.apache.org/) that makes Java development less painful.
 
-The `amvn` executable adds file watching and automatic rebuild to your projects. It is targeted at projects that foster creativity and require quick (visual) feedback.
+The `amvn` executable adds change detection and automatic rebuild to your projects. It is targeted at projects that foster creativity and require quick (visual) feedback.
 
 
 ## How it works
