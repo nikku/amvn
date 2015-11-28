@@ -48,14 +48,21 @@ function AwesomeMaven(mvnPath, options) {
     }
   }
 
+  var restartMaven = debounce(runMaven, 4000);
+
   function reloadMaven() {
 
     if (mvn) {
       log('[AMVN] sending KILL to mvn...'.yellow);
-      process.kill(mvn.pid);
+
+      try {
+        process.kill(mvn.pid);
+      } catch (e) {
+        log(('[AMVN] received <' + e.message + '>. Already dead?').yellow);
+      }
     }
 
-    defer(runMaven, 4000);
+    restartMaven();
   }
 
 
