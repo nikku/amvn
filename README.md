@@ -1,13 +1,13 @@
-# amvn (read: _slightly better maven_)
+# amvn (read: _awesome maven_)
 
-A tiny wrapper around [Maven](https://maven.apache.org/) that makes Java development less painful.
+`amvn` is a small wrapper around [Maven](https://maven.apache.org/) that adds change detection and automatic rebuild to your projects.
 
-The `amvn` executable adds change detection and automatic rebuild to your projects. It is targeted at projects that foster creativity and require quick (visual) feedback.
+Use it to get faster feedback on changes in your project.
 
 
 ## How it works
 
-`amvn` provides you with faster feedback during development by
+`amvn` keeps the running application in sync with your sources
 
 * keeping `target/classes` up to date with `src/main/resources`
 * reloading the underlying `mvn` instance on changes in `src/main/java`
@@ -17,7 +17,7 @@ Use it with modern web development stacks such as [Dropwizard](https://dropwizar
 
 ## Get it
 
-Install the library via [npm](https://www.npmjs.com/):
+Install the library via [npm](https://www.npmjs.com):
 
 ```
 npm install amvn -g

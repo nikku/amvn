@@ -1,7 +1,16 @@
 {
   "name": "amvn",
+  "description": "A Maven wrapper adding change detection and automatic rebuild",
+  "keywords": [
+    "maven",
+    "java",
+    "wrapper",
+    "development",
+    "tool",
+    "live-reload",
+    "change detection"
+  ],
   "version": "0.1.1",
-  "description": "A slightly more awesome Maven (https://maven.apache.org)",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
