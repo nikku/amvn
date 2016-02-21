@@ -10,6 +10,11 @@
   },
   "author": "Nico Rehwaldt<git_nikku@nixis.de>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:nikku/amvn.git"
+  },
+  "bugs": "https://github.com/nikku/amvn/issues",
   "dependencies": {
     "chokidar": "^1.0.5",
     "colors": "^1.1.2",
