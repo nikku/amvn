@@ -2,7 +2,7 @@
 
 var args = process.argv;
 
-if (args[0] === 'node') {
+if (/node$/.test(args[0])) {
   args = args.slice(2);
 }
 
