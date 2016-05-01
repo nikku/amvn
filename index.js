@@ -11,12 +11,14 @@ var path = require('path');
 var chokidar = require('chokidar'),
     colors = require('colors'),
     cp = require('cp'),
-    debounce = require('debounce'),
     mkdirp = require('mkdirp');
 
 
 var log = console.log.bind(console);
 
+function now() {
+  return new Date().getTime();
+}
 
 function AwesomeMaven(mvnPath, options) {
 
@@ -27,7 +29,11 @@ function AwesomeMaven(mvnPath, options) {
 
   var mvn;
 
+  var starting = 0;
+
   function runMaven(cleanStart) {
+    starting = starting || now();
+
     if (!cleanStart) {
       log('[AMVN] restarting mvn...'.yellow);
     }
@@ -44,9 +50,18 @@ function AwesomeMaven(mvnPath, options) {
         }
       });
     }
+
+    starting = 0;
   }
 
   function reloadMaven() {
+
+    // already starting
+    if (starting) {
+      return;
+    }
+
+    starting = now();
 
     if (mvn) {
       log('[AMVN] sending KILL to mvn...'.yellow);
@@ -58,11 +73,22 @@ function AwesomeMaven(mvnPath, options) {
       }
     }
 
-    delayedRestartMaven();
-  }
+    var timer = setInterval(function() {
+      try {
+        process.kill(mvn.pid, 0);
+      } catch (e) {
+        // does not exist
 
-  var delayedReloadMaven = debounce(reloadMaven, 2000);
-  var delayedRestartMaven = debounce(runMaven, 4000);
+        log('[AMVN] mvn gone'.yellow);
+
+        // clear timer
+        clearInterval(timer);
+
+        // restart
+        runMaven();
+      }
+    }, 500);
+  }
 
 
   function registerWatch() {
@@ -94,7 +120,7 @@ function AwesomeMaven(mvnPath, options) {
     // One-liner for current directory, ignores .dotfiles
     var watcher = chokidar.watch(JAVA_SOURCES + '/**/*', { usePolling: options.poll });
 
-    watcher.on('change', delayedReloadMaven);
+    watcher.on('change', reloadMaven);
   }
 
 
