@@ -2,7 +2,7 @@
 
 var args = process.argv;
 
-if (/node(\.exe)?$/.test(args[0])) {
+if (/node(js)?(\.exe)?$/.test(args[0])) {
   args = args.slice(2);
 }
 
