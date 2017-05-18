@@ -10,7 +10,7 @@
     "live-reload",
     "change detection"
   ],
-  "version": "0.2.1",
+  "version": "0.2.2",
   "scripts": {
     "test": "echo \"Error: no test specified\""
   },
