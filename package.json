@@ -5,7 +5,7 @@
   "scripts": {
     "all": "run-s lint test",
     "lint": "eslint .",
-    "test": "echo \"Woops: no test specified\""
+    "test": "node bin/cmd.js --version"
   },
   "bin": {
     "amvn": "bin/cmd.js"
