@@ -6,6 +6,11 @@ All notable changes to [amvn](https://github.com/nikku/amvn) are documented here
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.4.0
+
+* `FEAT`: merge `--watch` and `--reload`
+* `CHORE`: print less internals during standard watch
+
 ## 0.3.1
 
 * `FIX`: correct `--help command`
