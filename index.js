@@ -1,8 +1,10 @@
 'use strict';
 
-var JAVA_SOURCES = 'src/main/java',
-    JAVA_RESOURCES = 'src/main/resources',
-    JAVA_CLASSES = 'target/classes';
+var JAVA_SOURCES = 'src/main/java';
+var JAVA_TEST_SOURCES = 'src/test/java';
+var JAVA_RESOURCES = 'src/main/resources';
+var JAVA_TEST_RESOURCES = 'src/test/resources';
+var JAVA_CLASSES = 'target/classes';
 
 var color = require('kleur');
 
@@ -38,6 +40,9 @@ function AwesomeMaven(mvnPath, options) {
     return new AwesomeMaven(mvnPath, options);
   }
 
+  function isTest() {
+    return options.mvnArgs.some(arg => arg.includes('test'));
+  }
 
   var mvn;
 
@@ -75,74 +80,85 @@ function AwesomeMaven(mvnPath, options) {
 
     starting = now();
 
-    if (mvn) {
-      log('sending KILL to mvn...');
-
-      try {
-        process.kill(mvn.pid);
-      } catch (e) {
-        log('received <' + e.message + '>. Already dead?');
-      }
-    }
-
     var timer = setInterval(function() {
+      var killed = !mvn;
+
       try {
-        process.kill(mvn.pid, 0);
+        options.verbose && log('sending KILL to mvn...');
+        killed || process.kill(mvn.pid);
       } catch (e) {
+        options.verbose && log('received <' + e.message + '>. Already dead?');
 
-        // does not exist
-
-        log('mvn gone');
-
-        // clear timer
-        clearInterval(timer);
-
-        // restart
-        runMaven();
+        killed = true;
       }
+
+      if (!killed) {
+        return;
+      }
+
+      // clear timer
+      clearInterval(timer);
+
+      // restart
+      runMaven();
     }, 500);
   }
 
 
-  function registerWatch() {
+  function copyResource(srcPath) {
+    var relativePath = path.relative(JAVA_RESOURCES, srcPath);
 
-    log('watching for %s changes...', JAVA_RESOURCES);
+    var targetPath = path.join(JAVA_CLASSES, relativePath);
+    var targetDirectory = path.dirname(targetPath);
 
-    var watcher = chokidar.watch(JAVA_RESOURCES + '/**/*', { usePolling: options.poll });
+    log('%s changed, updating in %s', srcPath, JAVA_CLASSES);
 
-    watcher.on('change', function(srcPath) {
+    mkdirp.sync(targetDirectory);
+    cp.sync(srcPath, targetPath);
+  }
 
-      var relativePath = path.relative(JAVA_RESOURCES, srcPath);
+  function watchResources() {
 
-      var targetPath = path.join(JAVA_CLASSES, relativePath);
-      var targetDirectory = path.dirname(targetPath);
+    var watcher = chokidar.watch([], { usePolling: options.poll });
 
-      log('%s changed, updating in %s', srcPath, JAVA_CLASSES);
+    watcher.on('change', copyResource);
 
-      mkdirp.sync(targetDirectory);
-      cp.sync(srcPath, targetPath);
-    });
+    log('watching %s for changes...', JAVA_RESOURCES);
+    watcher.add(JAVA_RESOURCES + '/**/*');
+
+    if (isTest()) {
+      log('watching %s for changes...', JAVA_TEST_RESOURCES);
+      watcher.add(JAVA_TEST_RESOURCES + '/**/*');
+    }
 
     return watcher;
   }
 
 
-  function registerReload() {
-    log('reloading mvn on %s changes...', JAVA_SOURCES);
+  function watchSources() {
 
-    // One-liner for current directory, ignores .dotfiles
-    var watcher = chokidar.watch(JAVA_SOURCES + '/**/*', { usePolling: options.poll });
+    var watcher = chokidar.watch([], { usePolling: options.poll });
 
     watcher.on('change', reloadMaven);
+
+    log('watching %s for changes...', JAVA_SOURCES);
+    watcher.add(JAVA_SOURCES + '/**/*');
+
+    if (isTest()) {
+      log('watching %s for changes...', JAVA_TEST_SOURCES);
+      watcher.add(JAVA_TEST_SOURCES + '/**/*');
+    }
+
+    return watcher;
   }
 
 
   if (options.watch) {
-    registerWatch();
+    watchResources();
   }
 
   if (options.reload) {
-    registerReload();
+    watchSources();
   }
 
   runMaven(true);
