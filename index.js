@@ -1,6 +1,5 @@
 'use strict';
 
-
 var JAVA_SOURCES = 'src/main/java',
     JAVA_RESOURCES = 'src/main/resources',
     JAVA_CLASSES = 'target/classes';
@@ -9,7 +8,6 @@ var spawn = require('child_process').spawn;
 var path = require('path');
 
 var chokidar = require('chokidar'),
-    colors = require('colors'),
     cp = require('cp'),
     mkdirp = require('mkdirp');
 
@@ -77,6 +75,7 @@ function AwesomeMaven(mvnPath, options) {
       try {
         process.kill(mvn.pid, 0);
       } catch (e) {
+
         // does not exist
 
         log('[AMVN] mvn gone'.yellow);
