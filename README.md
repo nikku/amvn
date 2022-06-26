@@ -1,5 +1,7 @@
 # amvn
 
+[![CI](https://github.com/nikku/amvn/actions/workflows/CI.yml/badge.svg)](https://github.com/nikku/amvn/actions/workflows/CI.yml)
+
 `amvn` (awesome maven) wraps [Maven](https://maven.apache.org/) to add change detection and automatic rebuild.
 
 
