@@ -47,7 +47,11 @@ function parseOptions(args) {
   };
 }
 
+var kleur = require('kleur');
 var which = require('which');
+
+// or use another library to detect support
+kleur.enabled = require('color-support').level > 0;
 
 var {
   AwesomeMaven,
