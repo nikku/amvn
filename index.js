@@ -15,7 +15,7 @@ var chokidar = require('chokidar'),
 
 var prefix = '[AMVN]';
 
-function log(msg, ...args) {
+function log(msg = '', ...args) {
   console.log(color.yellow(`${prefix} ${msg}`), ...args);
 }
 
