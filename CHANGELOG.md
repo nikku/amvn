@@ -6,6 +6,10 @@ All notable changes to [amvn](https://github.com/nikku/amvn) are documented here
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.3.1
+
+* `FIX`: correct `--help command`
+
 ## 0.3.0
 
 * `DEPS`: replace `colors` with `kleur`
