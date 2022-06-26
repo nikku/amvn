@@ -1,8 +1,6 @@
 # amvn
 
-`amvn` (awesome maven) is a small wrapper around [Maven](https://maven.apache.org/) that adds change detection and automatic rebuild to your projects.
-
-Use it to get faster feedback on changes in your project.
+`amvn` (awesome maven) wraps [Maven](https://maven.apache.org/) to add change detection and automatic rebuild.
 
 
 ## How it works
