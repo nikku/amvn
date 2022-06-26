@@ -6,7 +6,6 @@ if (/node(js)?(\.exe)?$/.test(args[0])) {
   args = args.slice(2);
 }
 
-
 function parseOptions(args) {
 
   var watch = false,
@@ -52,19 +51,33 @@ function parseOptions(args) {
   };
 }
 
-var which = require('which'),
-    amvn = require('../');
+var which = require('which');
+
+var {
+  AwesomeMaven,
+  log,
+  logError
+} = require('..');
 
 var options = parseOptions(args);
 
-which('mvn', function(err, mvnPath) {
+async function run() {
 
-  if (err) {
-    console.error('failed to grab mvn. do you have maven on your path?'.red);
-    console.error(err.message);
-    return process.exit(1);
+  try {
+    const mvnPath = await which('mvn');
+
+    log('make maven awesome');
+    AwesomeMaven(mvnPath, options);
+  } catch (err) {
+    logError('failed to grab mvn. do you have maven on your path?');
+    logError(err);
+
+    process.exit(1);
   }
+}
 
-  console.log('[AMVN] make maven awesome'.yellow);
-  amvn(mvnPath, options);
+run().catch(err => {
+  logError(err);
+
+  process.exit(1);
 });

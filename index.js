@@ -4,6 +4,8 @@ var JAVA_SOURCES = 'src/main/java',
     JAVA_RESOURCES = 'src/main/resources',
     JAVA_CLASSES = 'target/classes';
 
+var color = require('kleur');
+
 var spawn = require('child_process').spawn;
 var path = require('path');
 
@@ -11,8 +13,20 @@ var chokidar = require('chokidar'),
     cp = require('cp'),
     mkdirp = require('mkdirp');
 
+var prefix = '[AMVN]';
 
-var log = console.log.bind(console);
+function log(msg, ...args) {
+  console.log(color.yellow(`${prefix} ${msg}`), ...args);
+}
+
+function logError(msg, ...args) {
+
+  if (msg instanceof Error) {
+    console.error(msg, ...args);
+  } else {
+    console.error(color.red(`${prefix} ${msg}`), ...args);
+  }
+}
 
 function now() {
   return new Date().getTime();
@@ -33,7 +47,7 @@ function AwesomeMaven(mvnPath, options) {
     starting = starting || now();
 
     if (!cleanStart) {
-      log('[AMVN] restarting mvn...'.yellow);
+      log('restarting mvn...');
     }
 
     mvn = spawn(mvnPath, options.mvnArgs, { stdio: 'inherit' });
@@ -42,7 +56,7 @@ function AwesomeMaven(mvnPath, options) {
       mvn.on('exit', function(code) {
 
         if (code && code !== 143) {
-          log('[AMVN] mvn exited unexpectedly (code=%s)'.red, code);
+          logError('mvn exited unexpectedly (code=%s)', code);
 
           process.exit(1);
         }
@@ -62,12 +76,12 @@ function AwesomeMaven(mvnPath, options) {
     starting = now();
 
     if (mvn) {
-      log('[AMVN] sending KILL to mvn...'.yellow);
+      log('sending KILL to mvn...');
 
       try {
         process.kill(mvn.pid);
       } catch (e) {
-        log(('[AMVN] received <' + e.message + '>. Already dead?').yellow);
+        log('received <' + e.message + '>. Already dead?');
       }
     }
 
@@ -78,7 +92,7 @@ function AwesomeMaven(mvnPath, options) {
 
         // does not exist
 
-        log('[AMVN] mvn gone'.yellow);
+        log('mvn gone');
 
         // clear timer
         clearInterval(timer);
@@ -92,7 +106,7 @@ function AwesomeMaven(mvnPath, options) {
 
   function registerWatch() {
 
-    log('[AMVN] watching for %s changes...'.yellow, JAVA_RESOURCES);
+    log('watching for %s changes...', JAVA_RESOURCES);
 
     var watcher = chokidar.watch(JAVA_RESOURCES + '/**/*', { usePolling: options.poll });
 
@@ -103,7 +117,7 @@ function AwesomeMaven(mvnPath, options) {
       var targetPath = path.join(JAVA_CLASSES, relativePath);
       var targetDirectory = path.dirname(targetPath);
 
-      log('[AMVN] %s changed, updating in %s'.yellow, srcPath, JAVA_CLASSES);
+      log('%s changed, updating in %s', srcPath, JAVA_CLASSES);
 
       mkdirp.sync(targetDirectory);
       cp.sync(srcPath, targetPath);
@@ -114,14 +128,13 @@ function AwesomeMaven(mvnPath, options) {
 
 
   function registerReload() {
-    log('[AMVN] reloading mvn on %s changes...'.yellow, JAVA_SOURCES);
+    log('reloading mvn on %s changes...', JAVA_SOURCES);
 
     // One-liner for current directory, ignores .dotfiles
     var watcher = chokidar.watch(JAVA_SOURCES + '/**/*', { usePolling: options.poll });
 
     watcher.on('change', reloadMaven);
   }
-
 
 
   if (options.watch) {
@@ -135,4 +148,8 @@ function AwesomeMaven(mvnPath, options) {
   runMaven(true);
 }
 
-module.exports = AwesomeMaven;
+module.exports = {
+  log,
+  logError,
+  AwesomeMaven
+};
