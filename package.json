@@ -5,7 +5,9 @@
   "scripts": {
     "all": "run-s lint test",
     "lint": "eslint .",
-    "test": "node bin/cmd.js --version"
+    "test:help": "node bin/cmd.js --help",
+    "test:version": "node bin/cmd.js --version",
+    "test": "run-s test:*"
   },
   "bin": {
     "amvn": "bin/cmd.js"
