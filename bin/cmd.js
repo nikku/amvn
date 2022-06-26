@@ -1,10 +1,6 @@
 #!/usr/bin/env node
 
-var args = process.argv;
-
-if (/node(js)?(\.exe)?$/.test(args[0])) {
-  args = args.slice(2);
-}
+var args = process.argv.slice(2);
 
 function parseOptions(args) {
 
