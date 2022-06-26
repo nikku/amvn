@@ -7,6 +7,7 @@
     "lint": "eslint .",
     "test:help": "node bin/cmd.js --help",
     "test:version": "node bin/cmd.js --version",
+    "test:verbose": "node bin/cmd.js --version --verbose",
     "test": "run-s test:*"
   },
   "bin": {
