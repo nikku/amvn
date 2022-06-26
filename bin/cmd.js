@@ -18,7 +18,8 @@ function parseOptions(args) {
 
   var watch = false,
       reload = false,
-      poll = false;
+      poll = false,
+      verbose = false;
 
   args = args.filter(function(a) {
 
@@ -49,15 +50,20 @@ function parseOptions(args) {
       return !(watch = reload = true);
     }
 
+    if (/^(--verbose)$/.test(a)) {
+      return !(verbose = true);
+    }
+
     // must be maven argument
     return true;
   });
 
   return {
     mvnArgs: args,
-    watch: watch,
-    poll: poll,
-    reload: reload
+    watch,
+    poll,
+    reload,
+    verbose
   };
 }
 
