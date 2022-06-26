@@ -1,7 +1,7 @@
 {
   "name": "amvn",
   "description": "A Maven wrapper adding change detection and automatic rebuild",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "scripts": {
     "all": "run-s lint test",
     "lint": "eslint .",
