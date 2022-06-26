@@ -26,13 +26,11 @@ function parseOptions(args) {
       log('usage: amvn [special options] [maven arguments...]');
       log();
       log('Options: ');
-      log(' -w, --watch                     Watch src/main/resources for changes and');
-      log('                                 update target directory');
-      log(' -r, --reload                    Reload app on src/main/java changes');
-      log(' --poll                          Use polling during watch');
+      log('  -w,--watch                     Watch for changes and trigger reload');
+      log('  --poll                         Use polling during watch');
       log();
       log('Example: ');
-      log(' amvn test --watch');
+      log('  $ amvn test --watch');
       log();
       log();
       log('mvn help follows...');
@@ -48,7 +46,7 @@ function parseOptions(args) {
     }
 
     if (/^(--watch|-w)$/.test(a)) {
-      return !(watch = true);
+      return !(watch = reload = true);
     }
 
     // must be maven argument

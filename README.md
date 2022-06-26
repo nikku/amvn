@@ -29,9 +29,9 @@ npm install amvn -g
 ...
 ```
 
-`amvn` accepts the additional arguments `--watch` (resource watching) and `--reload` (source watching / reloading).
+`amvn` accepts the additional `--watch` argument to copy resources / reload maven on source changes.
 
-The executable does not actually care _what_ you execute via Maven. Make sure you have a lean and quick build process yourself.
+It does not actually care _what_ you execute via Maven. Make sure you have a lean and quick build process yourself.
 
 
 ## How it works
