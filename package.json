@@ -1,15 +1,6 @@
 {
   "name": "amvn",
   "description": "A Maven wrapper adding change detection and automatic rebuild",
-  "keywords": [
-    "maven",
-    "java",
-    "wrapper",
-    "development",
-    "tool",
-    "live-reload",
-    "change detection"
-  ],
   "version": "0.2.2",
   "scripts": {
     "all": "run-s lint test",
@@ -25,7 +16,15 @@
     "type": "git",
     "url": "git@github.com:nikku/amvn.git"
   },
-  "bugs": "https://github.com/nikku/amvn/issues",
+  "keywords": [
+    "maven",
+    "java",
+    "wrapper",
+    "development",
+    "tool",
+    "live-reload",
+    "change detection"
+  ],
   "dependencies": {
     "chokidar": "^1.0.5",
     "cp": "^0.2.0",
